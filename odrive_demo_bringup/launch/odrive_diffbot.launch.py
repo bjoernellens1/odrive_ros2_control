@@ -42,14 +42,6 @@ def generate_launch_description():
         ]
     )
 
-    rviz_config_file = PathJoinSubstitution(
-        [
-            FindPackageShare("diffbot_description"),
-            "config",
-            "diffbot.rviz"
-        ]
-    )
-
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -76,17 +68,9 @@ def generate_launch_description():
         arguments=["diffbot_base_controller", "-c", "/controller_manager"],
     )
 
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        arguments=["-d", rviz_config_file],
-    )
-
     return LaunchDescription([
         control_node,
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
         robot_controller_spawner,
-        rviz_node
     ])
